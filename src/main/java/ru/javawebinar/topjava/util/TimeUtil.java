@@ -11,7 +11,8 @@ public class TimeUtil {
     public static String convertLocalDateTimeInString(LocalDateTime ldt){
         String res= ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
         return res.replaceFirst("T",  " ");
-
-
+    }
+    public static LocalDateTime convertStringToLdt(String date){
+        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
     }
 }

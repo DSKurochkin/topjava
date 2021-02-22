@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.web;
 
-import ru.javawebinar.topjava.DB.QuasiDB;
-import ru.javawebinar.topjava.model.MealTo;
-import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.DAO.MealDAO;
+import ru.javawebinar.topjava.DAO.MealDaoQuasiDBImpl;
+import ru.javawebinar.topjava.model.Meal;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,19 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalTime;
-import java.util.List;
 
-public class MealServlet extends HttpServlet {
+public class showMealFormServlet extends HttpServlet {
+    MealDAO dao = MealDaoQuasiDBImpl.getInstance();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<MealTo> mealsTo = MealsUtil.filteredByStreams(QuasiDB.meals, LocalTime.MIN
-                , LocalTime.MAX, QuasiDB.caloriesPerDay);
-        request.setAttribute("meals", mealsTo);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/meals.jsp");
+
+        String id = request.getParameter("mealId");
+        Meal meal = null;
+        if (id != null) {
+            meal = dao.getMealByID(Integer.parseInt(id));
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/meal-info.jsp");
+        request.setAttribute("meal", meal);
         dispatcher.forward(request, response);
     }
 }
