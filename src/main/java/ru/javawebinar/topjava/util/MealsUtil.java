@@ -5,32 +5,28 @@ import ru.javawebinar.topjava.model.MealTo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class MealsUtil {
 
-    public static List<MealTo> filteredByCycles(Map<Integer, Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        Map<LocalDate, Integer> sumCaloriesOfDay = new HashMap<>();
+    public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime
+            , LocalTime endTime, int caloriesPerDay) {
 
-        for (Meal meal : meals.values()) {
-            sumCaloriesOfDay.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), Integer::sum);
-        }
-        List<MealTo> res = new ArrayList<>();
-        for (Map.Entry<Integer, Meal> entry : meals.entrySet()) {
-            if (TimeUtil.isBetweenHalfOpen(entry.getValue().getDateTime().toLocalTime(), startTime, endTime)) {
-                res.add(createTo(entry.getKey(), entry.getValue()
-                        , sumCaloriesOfDay.get(entry.getValue().getDateTime().toLocalDate()) > caloriesPerDay));
-            }
-        }
-        return res;
+        Map<LocalDate, Integer> sumCaloriesOfDay = meals.stream()
+                .collect(Collectors.toMap(meal -> meal.getDateTime().toLocalDate()
+                        , Meal::getCalories, Integer::sum));
+        return meals.stream()
+                .filter(meal -> TimeUtil.isBetweenHalfOpen(meal.getDateTime().toLocalTime(), startTime, endTime))
+                .map(meal -> createTo(meal, sumCaloriesOfDay
+                        .get(meal.getDateTime().toLocalDate()) > caloriesPerDay))
+                .collect(Collectors.toList());
     }
 
-    private static MealTo createTo(int id, Meal meal, boolean excess) {
-        return new MealTo(id, meal.getDateTime(), meal.getDescription(), meal.getCalories()
-                , excess);
+    private static MealTo createTo(Meal meal, boolean excess) {
+        return new MealTo(meal.getId(), meal.getDateTime(), meal.getDescription()
+                , meal.getCalories(), excess);
     }
 }

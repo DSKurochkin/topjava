@@ -2,10 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import ru.javawebinar.topjava.DAO.MealDAO;
 import ru.javawebinar.topjava.DAO.MealDaoQuasiDBImpl;
-import ru.javawebinar.topjava.DAO.QuasiDB;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealTo;
-import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.TimeUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -15,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 
 public class CRUDServlet extends HttpServlet {
     MealDAO dao = new MealDaoQuasiDBImpl();
@@ -42,6 +37,7 @@ public class CRUDServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String forward = "";
         String action = request.getParameter("action");
         if (action == null) {
@@ -51,31 +47,21 @@ public class CRUDServlet extends HttpServlet {
         String listMeals = "/meals.jsp";
         switch (action) {
             case "allMeals":
-                List<MealTo> mealsTo = MealsUtil.filteredByCycles(dao.getAll(), LocalTime.MIN
-                        , LocalTime.MAX, QuasiDB.caloriesPerDay);
-                request.setAttribute("meals", mealsTo);
+                request.setAttribute("meals", dao.getAll());
                 forward = listMeals;
                 break;
             case "delete":
                 int mealId = Integer.parseInt(request.getParameter("mealId"));
-                if (dao.containsId(mealId)) {
-                    dao.delete(mealId);
-                }
+                dao.delete(mealId);
                 response.sendRedirect(request.getServletContext().getContextPath()
                         + "/meals");
                 return;
             case "edit":
                 int id = Integer.parseInt(request.getParameter("mealId"));
-                if (dao.containsId(id)) {
-                    Meal meal = dao.getByID(id);
-                    request.setAttribute("id", id);
-                    request.setAttribute("meal", meal);
-                    forward = insertOrEdit;
-                } else {
-                    response.sendRedirect(request.getServletContext().getContextPath()
-                            + "/meals");
-                    return;
-                }
+                Meal meal = dao.getByID(id);
+                request.setAttribute("id", id);
+                request.setAttribute("meal", meal);
+                forward = insertOrEdit;
                 break;
             case "add":
                 forward = insertOrEdit;

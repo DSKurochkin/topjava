@@ -11,7 +11,7 @@
 <h2><a href="/topjava">Home</a></h2>
 <hr align="left" size="2" color="black"/>
 <h2>Meals</h2>
-<a href="/topjava/meals?action=add">Add meals</a>
+<a href="/topjava/meals?action=add">Add meal</a>
 <br><br>
 <table border=1>
     <tr>
