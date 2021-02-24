@@ -23,33 +23,6 @@
         <servlet-name>CRUDServlet</servlet-name>
         <url-pattern>/meals/*</url-pattern>
     </servlet-mapping>
-<!--    <servlet>-->
-<!--        <servlet-name>deleteMealServlet</servlet-name>-->
-<!--        <servlet-class>ru.javawebinar.topjava.web.deleteMealServlet</servlet-class>-->
-<!--        <load-on-startup>0</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>deleteMealServlet</servlet-name>-->
-<!--        <url-pattern>/meals/delete</url-pattern>-->
-<!--    </servlet-mapping>-->
-<!--    <servlet>-->
-<!--        <servlet-name>saveMealServlet</servlet-name>-->
-<!--        <servlet-class>ru.javawebinar.topjava.web.saveMealServlet</servlet-class>-->
-<!--        <load-on-startup>0</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>saveMealServlet</servlet-name>-->
-<!--        <url-pattern>/meals/save</url-pattern>-->
-<!--    </servlet-mapping>-->
-<!--    <servlet>-->
-<!--        <servlet-name>showMealFormServlet</servlet-name>-->
-<!--        <servlet-class>ru.javawebinar.topjava.web.showMealFormServlet</servlet-class>-->
-<!--        <load-on-startup>0</load-on-startup>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>showMealFormServlet</servlet-name>-->
-<!--        <url-pattern>/meals/add</url-pattern>-->
-<!--    </servlet-mapping>-->
     <jsp-config>
         <taglib>
             <taglib-uri>

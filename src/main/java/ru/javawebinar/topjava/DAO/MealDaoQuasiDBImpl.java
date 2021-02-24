@@ -2,59 +2,45 @@ package ru.javawebinar.topjava.DAO;
 
 import ru.javawebinar.topjava.model.Meal;
 
-import java.util.List;
+import java.util.Map;
 
 public class MealDaoQuasiDBImpl implements MealDAO {
-    private static MealDaoQuasiDBImpl instance;
-    private final QuasiDB DB;
-    private final List<Meal> MEALS;
+    private final QuasiDB db;
+    private final Map<Integer, Meal> meals;
 
-    private MealDaoQuasiDBImpl() {
-        DB=new QuasiDB();
-        MEALS=DB.getMeals();
-    }
-
-    public static MealDaoQuasiDBImpl getInstance() {
-        if (instance == null) {
-            instance= new MealDaoQuasiDBImpl();
-        }
-        return instance;
+    public MealDaoQuasiDBImpl() {
+        db = new QuasiDB();
+        meals = db.getMeals();
     }
 
     @Override
     public Meal getByID(int id) {
-        return MEALS.stream().filter(meal -> meal.getId() == id).findAny()
-                .orElse(null);
+        return meals.get(id);
     }
 
     @Override
     public void insert(Meal meal) {
-        meal.setId(DB.increment());
-        MEALS.add(meal);
+        meals.put(db.increment(), meal);
     }
 
     @Override
     public void update(int id, Meal updMeal) {
-        int i;
-        for (i = 0; i < MEALS.size(); i++) {
-            if (MEALS.get(i).getId() == id) {
-                break;
-            }
-        }
-        updMeal.setId(id);
-        MEALS.set(i, updMeal);
+        meals.put(id, updMeal);
     }
 
     @Override
-    public List<Meal> getAll() {
+    public Map<Integer, Meal> getAll() {
+        return meals;
+    }
 
-        return MEALS;
+    @Override
+    public boolean containsId(int key) {
+        return meals.containsKey(key);
     }
 
     @Override
     public void delete(int id) {
-        MEALS.remove(getByID(id));
-
+        meals.remove(id);
     }
 
 }
