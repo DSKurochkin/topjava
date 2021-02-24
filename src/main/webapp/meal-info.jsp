@@ -16,7 +16,7 @@
     </c:if>
 </h2>
 <br>
-<form method="post" action="save">
+<form method="post" action="">
     <c:if test="${meal != null}">
         <input type="hidden" name="id" value="<c:out value='${meal.id}'/>"/>
     </c:if>

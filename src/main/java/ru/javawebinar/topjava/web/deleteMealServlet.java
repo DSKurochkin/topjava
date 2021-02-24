@@ -18,7 +18,7 @@ public class deleteMealServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("mealId"));
-        dao.deleteMeal(id);
+        dao.delete(id);
         response.sendRedirect("/topjava/meals");
     }
 }

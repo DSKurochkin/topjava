@@ -23,7 +23,7 @@ public class showMealFormServlet extends HttpServlet {
         String id = request.getParameter("mealId");
         Meal meal = null;
         if (id != null) {
-            meal = dao.getMealByID(Integer.parseInt(id));
+            meal = dao.getByID(Integer.parseInt(id));
         }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/meal-info.jsp");
         request.setAttribute("meal", meal);

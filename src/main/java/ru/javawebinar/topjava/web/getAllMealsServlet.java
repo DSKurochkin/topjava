@@ -24,8 +24,8 @@ public class getAllMealsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<MealTo> mealsTo = MealsUtil.filteredByStreams(dao.getAllMeals(), LocalTime.MIN
-                , LocalTime.MAX, QuasiDB.CALORIES_PER_DAY);
+        List<MealTo> mealsTo = MealsUtil.filteredByStreams(dao.getAll(), LocalTime.MIN
+                , LocalTime.MAX, QuasiDB.caloriesPerDay);
         request.setAttribute("meals", mealsTo);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/meals.jsp");
         dispatcher.forward(request, response);

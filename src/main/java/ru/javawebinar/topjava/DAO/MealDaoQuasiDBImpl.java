@@ -22,19 +22,19 @@ public class MealDaoQuasiDBImpl implements MealDAO {
     }
 
     @Override
-    public Meal getMealByID(int id) {
+    public Meal getByID(int id) {
         return MEALS.stream().filter(meal -> meal.getId() == id).findAny()
                 .orElse(null);
     }
 
     @Override
-    public void addMeal(Meal meal) {
+    public void insert(Meal meal) {
         meal.setId(DB.increment());
         MEALS.add(meal);
     }
 
     @Override
-    public void updateMeal(int id, Meal updMeal) {
+    public void update(int id, Meal updMeal) {
         int i;
         for (i = 0; i < MEALS.size(); i++) {
             if (MEALS.get(i).getId() == id) {
@@ -46,14 +46,14 @@ public class MealDaoQuasiDBImpl implements MealDAO {
     }
 
     @Override
-    public List<Meal> getAllMeals() {
+    public List<Meal> getAll() {
 
         return MEALS;
     }
 
     @Override
-    public void deleteMeal(int id) {
-        MEALS.remove(getMealByID(id));
+    public void delete(int id) {
+        MEALS.remove(getByID(id));
 
     }
 

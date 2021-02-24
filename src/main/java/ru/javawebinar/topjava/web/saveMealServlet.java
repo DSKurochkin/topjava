@@ -24,10 +24,10 @@ public class saveMealServlet extends HttpServlet {
         Meal meal = new Meal(ldt, description, calories);
         String srtId = request.getParameter("id");
         if (srtId == null) {
-            dao.addMeal(meal);
+            dao.insert(meal);
         } else {
             int id = Integer.parseInt(srtId);
-            dao.updateMeal(id, meal);
+            dao.update(id, meal);
         }
         response.sendRedirect("/topjava/meals");
     }
