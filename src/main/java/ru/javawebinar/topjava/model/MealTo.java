@@ -42,7 +42,6 @@ public class MealTo {
         return id;
     }
 
-
     @Override
     public String toString() {
         return "MealTo{" +

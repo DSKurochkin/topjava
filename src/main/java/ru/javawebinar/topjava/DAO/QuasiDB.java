@@ -9,8 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuasiDB {
-    static final int caloriesPerDay = 2000;
-    private Map<Integer, Meal> meals = new ConcurrentHashMap<>();
+    public static final int caloriesPerDay = 2000;
+    private final Map<Integer, Meal> meals = new ConcurrentHashMap<>();
     static AtomicInteger count = new AtomicInteger(0);
 
     Map<Integer, Meal> getMeals() {
@@ -38,7 +38,4 @@ public class QuasiDB {
         return count.incrementAndGet();
     }
 
-    static int currentId() {
-        return count.get();
-    }
 }

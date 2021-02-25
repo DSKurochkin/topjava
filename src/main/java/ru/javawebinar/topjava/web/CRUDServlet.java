@@ -2,7 +2,9 @@ package ru.javawebinar.topjava.web;
 
 import ru.javawebinar.topjava.DAO.MealDAO;
 import ru.javawebinar.topjava.DAO.MealDaoQuasiDBImpl;
+import ru.javawebinar.topjava.DAO.QuasiDB;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.TimeUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class CRUDServlet extends HttpServlet {
     MealDAO dao = new MealDaoQuasiDBImpl();
@@ -47,7 +51,9 @@ public class CRUDServlet extends HttpServlet {
         String listMeals = "/meals.jsp";
         switch (action) {
             case "allMeals":
-                request.setAttribute("meals", dao.getAll());
+                request.setAttribute("meals"
+                        , MealsUtil.filteredByStreams(new ArrayList<>(dao.getAll())
+                                ,LocalTime.MIN, LocalTime.MAX, QuasiDB.caloriesPerDay));
                 forward = listMeals;
                 break;
             case "delete":
