@@ -41,11 +41,11 @@ public class MealRestController {
 
     public void delete(int id) {
         log.info("delete {}", id);
-        service.delete(id,  authUserId());
+        service.delete(id, authUserId());
     }
 
     public void update(Meal meal, int id) {
-        log.info("update {} with id={} for user with id={}", meal, id, authUserId());
+        log.info("update {} with id={}, and userId={}", meal, id, authUserId());
         assureIdConsistent(meal, id);
         service.update(meal, authUserId());
     }
