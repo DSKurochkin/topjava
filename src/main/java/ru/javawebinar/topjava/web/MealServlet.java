@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -52,7 +54,6 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
@@ -68,6 +69,24 @@ public class MealServlet extends HttpServlet {
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
                 break;
+            case "filter":
+                String strStartD = request.getParameter("startD");
+                LocalDate startD = strStartD.isEmpty() ? LocalDate.MIN : LocalDate.parse(strStartD);
+
+                String strEndD = request.getParameter("endD");
+                LocalDate endD = strEndD.isEmpty() ? LocalDate.MAX : LocalDate.parse(strStartD);
+
+                String strStartT = request.getParameter("startT");
+                LocalTime startT = strStartT.isEmpty() ? LocalTime.MIN : LocalTime.parse(strStartT);
+
+                String strEndT = request.getParameter("endT");
+                LocalTime endT = strEndT.isEmpty() ? LocalTime.MAX : LocalTime.parse(strEndT);
+                log.info("getAllByFilter");
+                request.setAttribute("meals", mrc.getAllByFilter(startD, endD, startT, endT));
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                break;
+
+
             case "all":
             default:
                 log.info("getAll");

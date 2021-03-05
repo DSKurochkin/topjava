@@ -4,8 +4,14 @@ import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
 public class SecurityUtil {
 
+    static int tempUid;
+
     public static int authUserId() {
-        return 1;
+        return tempUid;
+    }
+
+    static void setAuthUserId(int userId) {
+        tempUid = userId;
     }
 
     public static int authUserCaloriesPerDay() {
