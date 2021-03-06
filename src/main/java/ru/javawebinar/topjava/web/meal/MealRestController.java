@@ -30,10 +30,11 @@ public class MealRestController {
         return MealsUtil.getTos(service.getAll(authUserId()), MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
-    public List<MealTo> getAllByFilter(LocalDate startD, LocalDate endD, LocalTime startT, LocalTime endT) {
+    public List<MealTo> getAllByFilter(LocalDate startDate, LocalDate endDate
+            , LocalTime startTime, LocalTime endTime) {
         log.info("getAllByFilter");
-        return MealsUtil.getFilteredTos(service.getAllByFilter(authUserId(), startD, endD)
-                , MealsUtil.DEFAULT_CALORIES_PER_DAY, startT, endT);
+        return MealsUtil.getFilteredTos(service.getAllByFilter(authUserId()
+                , startDate, endDate), MealsUtil.DEFAULT_CALORIES_PER_DAY, startTime, endTime);
     }
 
     public Meal get(int id) {

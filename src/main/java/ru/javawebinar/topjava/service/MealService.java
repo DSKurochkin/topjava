@@ -18,29 +18,30 @@ public class MealService {
         this.repository = repository;
     }
 
-    public Meal create(Meal meal, int authUserId) {
-        return repository.save(meal, authUserId);
+    public Meal create(Meal meal, int userId) {
+        return repository.save(meal, userId);
     }
 
-    public void delete(int id, int authUserId) {
+    public void delete(int id, int userId) {
 
-        checkNotFoundWithId(repository.delete(id, authUserId), id);
+        checkNotFoundWithId(repository.delete(id, userId), id);
     }
 
-    public Meal get(int id, int authUserId) {
-        return checkNotFoundWithId(repository.get(id, authUserId), id);
+    public Meal get(int id, int userId) {
+        return checkNotFoundWithId(repository.get(id, userId), id);
     }
 
 
-    public Collection<Meal> getAll(int authUserId) {
-        return repository.getAll(authUserId);
+    public Collection<Meal> getAll(int userId) {
+        return repository.getAll(userId);
     }
 
-    public void update(Meal meal, int authUserId) {
-        checkNotFoundWithId(repository.save(meal, authUserId), meal.getId());
+    public void update(Meal meal, int userId) {
+        checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
-    public Collection<Meal> getAllByFilter(int authUserId, LocalDate startD, LocalDate endD) {
-        return repository.getAllByFilter(authUserId,  startD,  endD);
+
+    public Collection<Meal> getAllByFilter(int userId, LocalDate startDate, LocalDate endDate) {
+        return repository.getAllByFilter(userId, startDate, endDate);
     }
 
 }

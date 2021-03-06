@@ -20,12 +20,12 @@ public class SpringMain {
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ADMIN));
 
-            MealRestController mealRestController=appCtx.getBean("mealRestController",MealRestController.class);
-            mealRestController.create( new Meal(LocalDateTime.of(1995, Month.MAY, 23, 12, 0)
-                    , "Завтрак", 500, 1));
+            MealRestController mealRestController = appCtx.getBean("mealRestController", MealRestController.class);
+            mealRestController.create(new Meal(LocalDateTime.of(1995, Month.MAY, 23, 12, 0)
+                    , "Завтрак", 500));
 
             System.out.println("Bean definition names:");
-            for(String bean:appCtx.getBeanDefinitionNames()){
+            for (String bean : appCtx.getBeanDefinitionNames()) {
                 System.out.println(bean);
             }
         }
