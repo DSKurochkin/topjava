@@ -26,20 +26,20 @@
     <p>
         <b>Filtering by date</b>
         </br>
-        <label for="startD">From date(include)</label>
-        <input type="date" name="startD" id="startD"/>
+        <label for="startDate">From date(include)</label>
+        <input type="date" name="startDate" id="startDate"/>
 
-        <label for="endD">To date(include)</label>
-        <input type="date" name="endD" id="endD"/>
+        <label for="endDate">To date(include)</label>
+        <input type="date" name="endDate" id="endDate"/>
     </p>
     <p>
         <b>Filtering by time</b>
         </br>
-        <label for="startT">Since time(include)</label>
-        <input type="time" name="startT" id="startT"/>
+        <label for="startTime">Since time(include)</label>
+        <input type="time" name="startTime" id="startTime"/>
 
-        <label for="endT">Until time(exclude)</label>
-        <input type="time" id="endT" name="endT"/>
+        <label for="endTime">Until time(exclude)</label>
+        <input type="time" id="endTime" name="endTime"/>
     </p>
 
     <button type="submit">Filter</button>
