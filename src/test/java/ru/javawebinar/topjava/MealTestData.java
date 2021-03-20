@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
@@ -49,10 +48,8 @@ public class MealTestData {
     }
 
     public static void assertMatch(Collection<Meal> actual, Meal... expected) {
-        List<Meal> actualMeal = new ArrayList<>(actual);
-        for (int i = 0; i < actualMeal.size(); i++) {
-            assertMatch(actualMeal.get(i), expected[i]);
-        }
+        assertThat(new ArrayList<>(actual)).usingFieldByFieldElementComparator()
+                .contains(expected);
     }
 
     public static LocalDateTime getUserDuplicateTime() {
