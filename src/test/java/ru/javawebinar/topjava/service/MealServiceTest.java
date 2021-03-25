@@ -1,7 +1,13 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +19,9 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -29,6 +38,32 @@ public class MealServiceTest {
 
     @Autowired
     private MealService service;
+    private long currentDuration;
+    private final static Map<String, Long> methodDuration = new LinkedHashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+
+    @Rule(order = Integer.MIN_VALUE)
+    public TestWatcher watcher = new TestWatcher() {
+        @Override
+        protected void starting(Description description) {
+            currentDuration = new Date().getTime();
+        }
+
+
+        @Override
+        protected void finished(Description description) {
+            currentDuration = new Date().getTime() - currentDuration;
+            methodDuration.put(description.getMethodName(), currentDuration);
+            log.info("Duration of test \"{}\" is \"{}\" ms", description.getMethodName(), currentDuration);
+        }
+    };
+
+    @AfterClass
+    public static void printTestDuration() {
+        System.out.println("Duration of each test in ms:");
+        methodDuration.forEach((k, v) -> System.out.println(k + ": " + v));
+    }
+
 
     @Test
     public void delete() {
