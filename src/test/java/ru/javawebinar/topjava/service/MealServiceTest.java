@@ -3,7 +3,7 @@ package ru.javawebinar.topjava.service;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestWatcher;
+import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -19,9 +19,9 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -38,32 +38,30 @@ public class MealServiceTest {
 
     @Autowired
     private MealService service;
-    private long currentDuration;
-    private final static Map<String, Long> methodDuration = new LinkedHashMap<>();
     private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+    private final static Map<String, Long> durationOfTests = new LinkedHashMap<>();
 
-    @Rule(order = Integer.MIN_VALUE)
-    public TestWatcher watcher = new TestWatcher() {
+    private static void logInfo(Description description, long nanos) {
+        String testName = description.getMethodName();
+        Long micros = TimeUnit.NANOSECONDS.toMicros(nanos);
+        log.info(String.format("Test %s, spent %d microseconds",
+                testName, micros));
+        durationOfTests.put(testName, micros);
+    }
+
+    @Rule
+    public Stopwatch stopwatch = new Stopwatch() {
         @Override
-        protected void starting(Description description) {
-            currentDuration = new Date().getTime();
-        }
-
-
-        @Override
-        protected void finished(Description description) {
-            currentDuration = new Date().getTime() - currentDuration;
-            methodDuration.put(description.getMethodName(), currentDuration);
-            log.info("Duration of test \"{}\" is \"{}\" ms", description.getMethodName(), currentDuration);
+        protected void finished(long nanos, Description description) {
+            logInfo(description, nanos);
         }
     };
 
     @AfterClass
-    public static void printTestDuration() {
-        System.out.println("Duration of each test in ms:");
-        methodDuration.forEach((k, v) -> System.out.println(k + ": " + v));
+    public static void durationSummary() {
+        log.info("-------------Duration of each test in ms:-------------");
+        durationOfTests.forEach((k, v) -> log.info(String.format("%s:%d", k, v)));
     }
-
 
     @Test
     public void delete() {
@@ -96,7 +94,6 @@ public class MealServiceTest {
         assertThrows(DataAccessException.class, () ->
                 service.create(new Meal(null, meal1.getDateTime(), "duplicate", 100), USER_ID));
     }
-
 
     @Test
     public void get() {
