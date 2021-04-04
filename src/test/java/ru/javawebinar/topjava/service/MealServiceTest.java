@@ -44,8 +44,7 @@ public class MealServiceTest {
     private static void logInfo(Description description, long nanos) {
         String testName = description.getMethodName();
         Long micros = TimeUnit.NANOSECONDS.toMicros(nanos);
-        log.info(String.format("Test %s, spent %d microseconds",
-                testName, micros));
+        log.info("Test {}, spent {} microseconds", testName, micros);
         durationOfTests.put(testName, micros);
     }
 
@@ -60,7 +59,7 @@ public class MealServiceTest {
     @AfterClass
     public static void durationSummary() {
         log.info("-------------Duration of each test in ms:-------------");
-        durationOfTests.forEach((k, v) -> log.info(String.format("%s:%d", k, v)));
+        durationOfTests.forEach((k, v) -> log.info("{}:{}", k, v));
     }
 
     @Test

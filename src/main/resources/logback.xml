@@ -9,7 +9,7 @@
 
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%date %highlight(%-5level) %green(%logger{50}).%M:%L - %msg%n</pattern>
+            <pattern>%date %highlight(%-5level) %magenta(%logger{50}).%M:%L - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -17,7 +17,7 @@
         <withJansi>true</withJansi>
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level} %green(%logger{50}).%M:%L - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %magenta(%logger{50}).%M:%L - %msg%n</pattern>
         </encoder>
     </appender>
 
