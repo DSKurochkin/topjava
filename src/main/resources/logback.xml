@@ -5,8 +5,8 @@
     <jmxConfigurator/>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <withJansi>true</withJansi>
         <file>${TOPJAVA_ROOT}/log/topjava.log</file>
-
         <encoder>
             <charset>UTF-8</charset>
             <pattern>%date %highlight(%-5level) %magenta(%logger{50}).%M:%L - %msg%n</pattern>

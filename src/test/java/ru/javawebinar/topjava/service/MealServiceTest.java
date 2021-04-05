@@ -58,7 +58,7 @@ public class MealServiceTest {
 
     @AfterClass
     public static void durationSummary() {
-        log.info("-------------Duration of each test in ms:-------------");
+        log.info("------Duration of each test in ms:------");
         durationOfTests.forEach((k, v) -> log.info("{}:{}", k, v));
     }
 
