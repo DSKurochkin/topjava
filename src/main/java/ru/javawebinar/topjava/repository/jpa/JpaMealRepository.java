@@ -2,7 +2,6 @@ package ru.javawebinar.topjava.repository.jpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
@@ -24,25 +23,21 @@ public class JpaMealRepository implements MealRepository {
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
+        User user = em.getReference(User.class, userId);
         if (meal.isNew()) {
-            meal.setUser(em.getReference(User.class, userId));
             log.info("save meal {} from user {}", meal, userId);
+            meal.setUser(user);
             em.persist(meal);
+            return meal;
         } else {
             log.info("update meal {} from user {}", meal, userId);
-            if (em.createQuery("UPDATE Meal m SET m.dateTime=:dateTime" +
-                    ", m.description=:description" +
-                    ", m.calories=:calories" +
-                    " WHERE m.id=:id AND m.user.id=:userId")
-                    .setParameter("dateTime", meal.getDateTime())
-                    .setParameter("description", meal.getDescription())
-                    .setParameter("calories", meal.getCalories())
-                    .setParameter("id", meal.getId())
-                    .setParameter("userId", userId).executeUpdate() == 0) {
+            if (get(meal.getId(), userId) != null) {
+                meal.setUser(user);
+                return em.merge(meal);
+            } else {
                 return null;
             }
         }
-        return meal;
     }
 
     @Override
@@ -57,12 +52,8 @@ public class JpaMealRepository implements MealRepository {
     @Override
     public Meal get(int id, int userId) {
         log.info("get meal with id {} from user {}", id, userId);
-        List<Meal> meals = em.createQuery("SELECT m FROM Meal m " +
-                "WHERE m.id=:id AND m.user.id=:userId", Meal.class)
-                .setParameter("id", id)
-                .setParameter("userId", userId)
-                .getResultList();
-        return DataAccessUtils.singleResult(meals);
+        Meal meal = em.find(Meal.class, id);
+        return meal == null || meal.getUser().getId() != userId ? null : meal;
     }
 
     @Override
