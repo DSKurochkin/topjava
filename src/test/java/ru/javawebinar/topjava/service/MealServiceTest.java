@@ -19,8 +19,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
@@ -39,13 +39,13 @@ public class MealServiceTest {
     @Autowired
     private MealService service;
     private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
-    private final static Map<String, Long> durationOfTests = new LinkedHashMap<>();
+    private final static List<String> durationOfTests = new ArrayList<>();
 
     private static void logInfo(Description description, long nanos) {
         String testName = description.getMethodName();
         Long micros = TimeUnit.NANOSECONDS.toMicros(nanos);
         log.info("Test {}, spent {} microseconds", testName, micros);
-        durationOfTests.put(testName, micros);
+        durationOfTests.add(testName + ":" + micros);
     }
 
     @Rule
@@ -58,9 +58,10 @@ public class MealServiceTest {
 
     @AfterClass
     public static void durationSummary() {
-        final String[] messageArr = {"\n------Duration of each test in ms:------"};
-        durationOfTests.forEach((k, v) -> messageArr[0] = messageArr[0]+"\n" + k + ":" + v);
-        log.info(messageArr[0]+"\n----------------------------------------");
+        String tests = String.join("\n", durationOfTests);
+        log.info("\n------Duration of each test in ms:------"
+                + tests
+                + "\n----------------------------------------");
     }
 
     @Test
