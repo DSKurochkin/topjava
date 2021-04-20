@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.OrderBy;
@@ -50,5 +51,9 @@ public class DataJpaMealRepository implements MealRepository {
                 .getAllByUserIdAndDateTimeBetweenOrderByDateTimeDesc(userId
                         , startDateTime
                         , endDateTime.minusSeconds(1));
+    }
+    @Override
+    public Meal getMealWithUser(int id, int userId ){
+        return crudRepository.getMealWithUser(id, userId);
     }
 }

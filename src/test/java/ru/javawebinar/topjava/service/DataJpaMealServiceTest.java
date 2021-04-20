@@ -1,73 +1,22 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
+import ru.javawebinar.topjava.UserTestData;
+import ru.javawebinar.topjava.model.Meal;
 
+import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.Profiles.DATAJPA;
+import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.USER_MATCHER;
 
 @ActiveProfiles(DATAJPA)
 public class DataJpaMealServiceTest extends MealServiceTest {
-    @Override
-    public void delete() {
-        super.delete();
-    }
+    @Test
+    public void getMealWithUserOnlyDataJPA(){
+    Meal meal = service.getMealWithUser(ADMIN_MEAL_ID, ADMIN_ID);
+    MEAL_MATCHER.assertMatch(meal, adminMeal1);
+    USER_MATCHER.assertMatch(meal.getUser(), UserTestData.admin);
 
-    @Override
-    public void deleteNotFound() {
-        super.deleteNotFound();
-    }
-
-    @Override
-    public void deleteNotOwn() {
-        super.deleteNotOwn();
-    }
-
-    @Override
-    public void create() {
-        super.create();
-    }
-
-    @Override
-    public void duplicateDateTimeCreate() {
-        super.duplicateDateTimeCreate();
-    }
-
-    @Override
-    public void get() {
-        super.get();
-    }
-
-    @Override
-    public void getNotFound() {
-        super.getNotFound();
-    }
-
-    @Override
-    public void getNotOwn() {
-        super.getNotOwn();
-    }
-
-    @Override
-    public void update() {
-        super.update();
-    }
-
-    @Override
-    public void updateNotOwn() {
-        super.updateNotOwn();
-    }
-
-    @Override
-    public void getAll() {
-        super.getAll();
-    }
-
-    @Override
-    public void getBetweenInclusive() {
-        super.getBetweenInclusive();
-    }
-
-    @Override
-    public void getBetweenWithNullDates() {
-        super.getBetweenWithNullDates();
-    }
+}
 }
