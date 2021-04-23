@@ -19,7 +19,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 public abstract class UserServiceTest extends ServiceTest {
 
     @Autowired
-    UserService service;
+    protected UserService service;
 
     @Autowired
     private CacheManager cacheManager;
@@ -30,7 +30,6 @@ public abstract class UserServiceTest extends ServiceTest {
     }
 
     @Test
-    @Override
     public void create() {
         User created = service.create(getNew());
         int newId = created.id();
@@ -47,7 +46,6 @@ public abstract class UserServiceTest extends ServiceTest {
     }
 
     @Test
-    @Override
     public void delete() {
         service.delete(USER_ID);
         assertThrows(NotFoundException.class, () -> service.get(USER_ID));
@@ -59,14 +57,12 @@ public abstract class UserServiceTest extends ServiceTest {
     }
 
     @Test
-    @Override
     public void get() {
         User user = service.get(USER_ID);
         USER_MATCHER.assertMatch(user, UserTestData.user);
     }
 
     @Test
-    @Override
     public void getNotFound() {
         assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND));
     }
@@ -78,7 +74,6 @@ public abstract class UserServiceTest extends ServiceTest {
     }
 
     @Test
-    @Override
     public void update() {
         User updated = getUpdated();
         service.update(updated);
@@ -86,7 +81,6 @@ public abstract class UserServiceTest extends ServiceTest {
     }
 
     @Test
-    @Override
     public void getAll() {
         List<User> all = service.getAll();
         USER_MATCHER.assertMatch(all, admin, user);
