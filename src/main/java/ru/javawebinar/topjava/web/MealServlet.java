@@ -1,11 +1,10 @@
 package ru.javawebinar.topjava.web;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.StringUtils;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.profile.Profiles;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.ServletException;
@@ -24,33 +23,17 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 public class MealServlet extends HttpServlet {
 
-    private ConfigurableEnvironment env;
-    static class Test{
-
-
-        public static void main(String[] args) {
-
-
-            GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-            ConfigurableEnvironment env = ctx.getEnvironment();
-            env.setActiveProfiles("hsqldb", "datajpa");
-            ctx.load("spring/spring-app.xml", "spring/spring-db.xml");
-            ctx.refresh();
-            for (String s : ctx.getBeanDefinitionNames()) System.out.println(s);
-        }
-    }
-
-    private ConfigurableApplicationContext springContext;
+    private GenericXmlApplicationContext springContext;
     private MealRestController mealController;
 
     @Override
     public void init() {
-        GenericXmlApplicationContext springContext  = new GenericXmlApplicationContext();
-        ConfigurableEnvironment env = springContext .getEnvironment();
-        env.setActiveProfiles("hsqldb", "datajpa");
-        springContext .load("spring/spring-app.xml", "spring/spring-db.xml");
-        springContext .refresh();
-        mealController=springContext.getBean(MealRestController.class);
+        springContext = new GenericXmlApplicationContext();
+        ConfigurableEnvironment env = springContext.getEnvironment();
+        env.setActiveProfiles(Profiles.getActiveDbProfile(), Profiles.REPOSITORY_IMPLEMENTATION);
+        springContext.load("spring/spring-app.xml", "spring/spring-db.xml");
+        springContext.refresh();
+        mealController = springContext.getBean(MealRestController.class);
     }
 
     @Override
