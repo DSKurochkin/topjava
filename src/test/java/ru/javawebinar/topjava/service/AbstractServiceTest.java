@@ -1,10 +1,12 @@
 package ru.javawebinar.topjava.service;
 
+
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.ExternalResource;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.RunWith;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -40,5 +42,14 @@ abstract public class AbstractServiceTest {
                 throw getRootCause(e);
             }
         });
+    }
+
+    static boolean isJdbcImpl(Environment env) {
+        for (String profile : env.getActiveProfiles()) {
+            if (profile.equalsIgnoreCase("jdbc")) {
+                return true;
+            }
+        }
+        return false;
     }
 }
