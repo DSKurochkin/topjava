@@ -4,7 +4,9 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import ru.javawebinar.topjava.UserTestData;
@@ -23,7 +25,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
-    ApplicationContext context;
+    private ApplicationContext context;
 
     @Autowired
     protected UserService service;
@@ -34,7 +36,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Before
     public void setup() {
         cacheManager.getCache("users").clear();
-        if (!isJdbcImpl(context.getEnvironment())) {
+        if (isNotJdbcImpl(context.getEnvironment())) {
             JpaUtil jpaUtil = context.getBean(JpaUtil.class);
             jpaUtil.clear2ndLevelHibernateCache();
         }
@@ -99,7 +101,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void createWithException() throws Exception {
-        Assume.assumeTrue(!isJdbcImpl(context.getEnvironment()));
+        Assume.assumeTrue(isNotJdbcImpl(context.getEnvironment()));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "  ", "mail@yandex.ru", "password", Role.USER)));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "  ", "password", Role.USER)));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "mail@yandex.ru", "  ", Role.USER)));

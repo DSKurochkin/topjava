@@ -3,7 +3,7 @@
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
-
+    <logger name="org.springframework.orm.jpa.JpaTransactionManager" level="debug"/>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <charset>UTF-8</charset>

@@ -4,11 +4,13 @@
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <%request.setCharacterEncoding("UTF-8");%>
 <html>
+<jsp:include page="fragments/headTag.jsp"/>
 <head>
     <title>Meals</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
     <h3><a href="index.jsp">Home</a></h3>
     <hr/>
@@ -33,7 +35,7 @@
         <button type="submit">Filter</button>
     </form>
     <hr/>
-    <a href="meals/edit?action=new">Add Meal</a>
+    <a href="meals/new">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -47,19 +49,19 @@
         </thead>
         <c:forEach items="${meals}" var="meal">
             <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>
-            <%--            next line doesn't work. why??--%>
-            <%--                        <tr data-mealExcess="${meal.excess}">--%>
+            <tr data-mealExcess="${meal.excess}">
             <tr style="color:${(meal.excess == true ? 'red' : 'green')}">
                 <td>
                         ${fn:formatDateTime(meal.dateTime)}
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="meals/edit?action=upd&id=${meal.id}">Update</a></td>
+                <td><a href="meals/edit?id=${meal.id}">Update</a></td>
                 <td><a href="meals/delete?id=${meal.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
 </section>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>

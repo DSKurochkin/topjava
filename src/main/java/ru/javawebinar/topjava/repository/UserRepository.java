@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository;
 
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
@@ -20,6 +21,18 @@ public interface UserRepository {
     List<User> getAll();
 
     default User getWithMeals(int id) {
+        throw new UnsupportedOperationException();
+    }
+
+    default void addRole(int id, Role role) {
+        throw new UnsupportedOperationException();
+    }
+
+    default void deleteRole(int id, Role role) {
+        throw new UnsupportedOperationException();
+    }
+
+    default void editRole(int id, Role role) {
         throw new UnsupportedOperationException();
     }
 }

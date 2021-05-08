@@ -44,12 +44,12 @@ abstract public class AbstractServiceTest {
         });
     }
 
-    static boolean isJdbcImpl(Environment env) {
+    static boolean isNotJdbcImpl(Environment env) {
         for (String profile : env.getActiveProfiles()) {
             if (profile.equalsIgnoreCase("jdbc")) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }
