@@ -57,15 +57,4 @@ public class UserService {
         return checkNotFoundWithId(repository.getWithMeals(id), id);
     }
 
-    public void addRole(int id, Role role) {
-        repository.addRole(id, role);
-    }
-
-    public void deleteRole(int id, Role role) {
-        repository.deleteRole(id, role);
-    }
-
-    public void editRole(int id, Role role) {
-        repository.editRole(id, role);
-    }
 }

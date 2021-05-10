@@ -4,10 +4,7 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.support.NoOpCacheManager;
-import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Role;
@@ -16,16 +13,12 @@ import ru.javawebinar.topjava.repository.JpaUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.UserTestData.*;
 
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
-    @Autowired
-    private ApplicationContext context;
 
     @Autowired
     protected UserService service;
@@ -107,5 +100,40 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "mail@yandex.ru", "  ", Role.USER)));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "mail@yandex.ru", "password", 9, true, new Date(), Set.of())));
         validateRootCause(ConstraintViolationException.class, () -> service.create(new User(null, "User", "mail@yandex.ru", "password", 10001, true, new Date(), Set.of())));
+    }
+
+    //tests for user with several roles
+    @Test
+    public void getAdmin() {
+        User user = service.get(ADMIN_ID);
+        USER_MATCHER.assertMatch(user, admin);
+    }
+
+    @Test
+    public void deleteAdm() {
+        service.delete(ADMIN_ID);
+        assertThrows(NotFoundException.class, () -> service.get(ADMIN_ID));
+    }
+
+    @Test
+    public void createTwoRoles() {
+        User user = getNew();
+        Set<Role> roles = new HashSet<>(Arrays.asList(Role.ADMIN, Role.USER));
+        user.setRoles(roles);
+        User created = service.create(user);
+        int newId = created.id();
+        User newUser = getNew();
+        newUser.setRoles(roles);
+        newUser.setId(newId);
+        USER_MATCHER.assertMatch(created, newUser);
+        USER_MATCHER.assertMatch(service.get(newId), newUser);
+    }
+
+    @Test
+    public void updateTwoRoles() {
+        User updated = getUpdated();
+        updated.getRoles().add(Role.USER);
+        service.update(updated);
+        USER_MATCHER.assertMatch(service.get(USER_ID), updated);
     }
 }

@@ -24,15 +24,4 @@ public interface UserRepository {
         throw new UnsupportedOperationException();
     }
 
-    default void addRole(int id, Role role) {
-        throw new UnsupportedOperationException();
-    }
-
-    default void deleteRole(int id, Role role) {
-        throw new UnsupportedOperationException();
-    }
-
-    default void editRole(int id, Role role) {
-        throw new UnsupportedOperationException();
-    }
 }

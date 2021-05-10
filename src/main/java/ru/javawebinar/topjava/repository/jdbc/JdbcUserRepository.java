@@ -66,8 +66,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     @Transactional
     public boolean delete(int id) {
-        return deleteAllRoles(id)
-                && jdbcTemplate.update("DELETE FROM users WHERE id=?", id) != 0;
+        return jdbcTemplate.update("DELETE FROM users WHERE id=?", id) != 0;
     }
 
     @Override
@@ -86,10 +85,9 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         Map<Integer, User> users = new LinkedHashMap<>();
-        String SQL = "SELECT u.id, u.name, u.email, u.password, u.registered, u.enabled, u.calories_per_day" +
-                ", r.role FROM users as u LEFT JOIN user_roles as r ON u.id=r.user_id ORDER BY name, email";
-        jdbcTemplate.query(SQL, rs -> {
-                    System.out.println("Name " + rs.getString("name"));
+        jdbcTemplate.query("SELECT u.*, r.role FROM users as u LEFT JOIN user_roles as r " +
+                        "ON u.id=r.user_id ORDER BY name, email"
+                , rs -> {
                     do {
                         Integer id = rs.getInt("id");
                         String name = rs.getString("name");
@@ -108,48 +106,20 @@ public class JdbcUserRepository implements UserRepository {
                     while (rs.next());
                 }
         );
-        return List.of(users.values().toArray(new User[]{}));
-    }
-
-    @Override
-    @Transactional
-    public void addRole(int id, Role role) {
-        jdbcTemplate.update("INSERT INTO user_roles(user_id, role) VALUES (?,?)"
-                , id
-                , role.toString());
-    }
-
-    @Override
-    @Transactional
-    public void deleteRole(int id, Role role) {
-        jdbcTemplate.update("DELETE FROM user_roles WHERE user_id=? AND role=?"
-                , id
-                , role.toString());
-    }
-
-    @Override
-    @Transactional
-    public void editRole(int id, Role role) {
-        jdbcTemplate.update("UPDATE user_roles SET role=? WHERE user_id=?"
-                , role.toString()
-                , id);
-    }
-
-    private List<Role> getRolesFromDB(int id) {
-        List<Role> roles = jdbcTemplate.query("SELECT * FROM user_roles WHERE user_id=?"
-                , new RowMapper<Role>() {
-                    @Override
-                    public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        return Role.valueOf(rs.getString("role"));
-                    }
-                }
-                , id);
-        return roles;
+        return new ArrayList<>(users.values());
     }
 
     private User setRolesFromDB(User user) {
         if (user != null) {
-            user.setRoles(getRolesFromDB(user.getId()));
+            List<Role> roles = jdbcTemplate.query("SELECT * FROM user_roles WHERE user_id=?"
+                    , new RowMapper<Role>() {
+                        @Override
+                        public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            return Role.valueOf(rs.getString("role"));
+                        }
+                    }
+                    , user.getId());
+            user.setRoles(roles);
         }
         return user;
     }
