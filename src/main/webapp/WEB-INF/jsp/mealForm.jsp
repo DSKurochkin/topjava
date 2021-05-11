@@ -13,16 +13,20 @@
 <section>
     <h3><a href="index.html"><spring:message code="app.home"/></a></h3>
     <hr>
-    <h2>
-        <c:choose>
-            <c:when test="${meal.id==null}">
-                <spring:message code="meal.create"/>
-            </c:when>
-            <c:otherwise>
-                <spring:message code="meal.edit"/>
-            </c:otherwise>
-        </c:choose>
-    </h2>
+    <spring:message code="meal.create" var="create"/>
+    <spring:message code="meal.edit" var="edit"/>
+    <h2>${meal.id == null?create:edit}  </h2>
+
+
+<%--        <c:choose>--%>
+<%--            <c:when test="${meal.id==null}">--%>
+<%--                <spring:message code="meal.create"/>--%>
+<%--            </c:when>--%>
+<%--            <c:otherwise>--%>
+<%--                <spring:message code="meal.edit"/>--%>
+<%--            </c:otherwise>--%>
+<%--        </c:choose>--%>
+<%--    </h2>--%>
 
     <form method="post" action="save" modelAttribute="meal">
         <input type="hidden" name="id" value="${meal.id}">
