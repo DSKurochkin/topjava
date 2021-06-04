@@ -4,6 +4,17 @@ function makeEditable(datatableApi) {
     ctx.datatableApi = datatableApi;
 
     form = $('#detailsForm');
+    $(".checkbox").click(function () {
+        let box = $(this)
+        if (confirm('Are you sure?')) {
+            if (box.is(":checked")) {
+                sendEnable(box.attr("id"), true);
+            } else {
+                sendEnable(box.attr("id"), false);
+            }
+        }
+    });
+
     $(".delete").click(function () {
         if (confirm('Are you sure?')) {
             deleteRow($(this).closest('tr').attr("id"));

@@ -11,33 +11,10 @@
 
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
-<%--    <form method="get" action="meals/filter">--%>
-<%--    <form method="get">--%>
-<%--        <dl>--%>
-<%--            <dt><spring:message code="meal.startDate"/>:</dt>--%>
-<%--            <dd id="startDate"><input type="date" name="startDate" value="${param.startDate}"></dd>--%>
-<%--        </dl>--%>
-<%--        <dl>--%>
-<%--            <dt><spring:message code="meal.endDate"/>:</dt>--%>
-<%--            <dd id="endDate"><input type="date" name="endDate" value="${param.endDate}"></dd>--%>
-<%--        </dl>--%>
-<%--        <dl>--%>
-<%--            <dt><spring:message code="meal.startTime"/>:</dt>--%>
-<%--            <dd id="startTime"><input type="time" name="startTime" value="${param.startTime}"></dd>--%>
-<%--        </dl>--%>
-<%--        <dl>--%>
-<%--            <dt><spring:message code="meal.endTime"/>:</dt>--%>
-<%--            <dd id="endTime"><input type="time" name="endTime" value="${param.endTime}"></dd>--%>
-<%--        </dl>--%>
-<%--        <button id="filter" type="submit"><spring:message code="meal.filter"/></button>--%>
-<%--    </form>--%>
-
-
 <div class="jumbotron pt-4">
     <div class="container">
         <h3 class="text-center"><spring:message code="meal.title"/></h3>
         <br>
-        <%--        -----------------FILTER----------------%>
         <div class="container">
             <form name="filter">
                 <div class="form-row">
@@ -45,7 +22,7 @@
                         <dl>
                             <dt><spring:message code="meal.startDate"/>:</dt>
                             <dd><label>
-                                <input id ="startDate" name="startDate" type="date">
+                                <input id="startDate" name="startDate" type="date">
                             </label></dd>
                         </dl>
                     </div>
@@ -53,7 +30,7 @@
                         <dl>
                             <dt><spring:message code="meal.endDate"/>:</dt>
                             <dd><label>
-                                <input id= "endDate" name="endDate" type="date">
+                                <input id="endDate" name="endDate" type="date">
                             </label></dd>
                         </dl>
                     </div>
@@ -61,7 +38,7 @@
                         <dl>
                             <dt><spring:message code="meal.startTime"/>:</dt>
                             <dd><label>
-                                <input id = "startTime" name="startTime" type="time">
+                                <input id="startTime" name="startTime" type="time">
                             </label></dd>
                         </dl>
                     </div>
@@ -77,11 +54,6 @@
 
             </form>
             <div class="text-right">
-                <button class="btn btn-dark" onclick="test()">
-                    <span class="fa fa-telegram"></span>
-                    <p>isFiltered</p>
-                </button>
-
                 <button class="btn btn-danger" onclick="off_filter()">
                     <span class="fa fa-undo"></span>
                     <spring:message code="common.cancel"/>
@@ -91,10 +63,7 @@
                     <spring:message code="meal.filter"/>
                 </button>
             </div>
-
-
         </div>
-        <%--        -----------------END FILTER----------------%>
         <br>
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>

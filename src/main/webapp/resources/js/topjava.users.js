@@ -5,6 +5,19 @@ const ctx = {
     ajaxUrl: userAjaxUrl
 };
 
+function sendEnable(id, isEnable) {
+    $.ajax({
+        type: "PATCH",
+        dataType: "json",
+        contentType: "application/json",
+        data: isEnable.toString(),
+        url: "rest/" + userAjaxUrl + id
+    }).done(function () {
+        let mes = isEnable === true ? "Enable" : "Disable"
+        successNoty(mes)
+    })
+}
+
 // $(document).ready(function () {
 $(function () {
     makeEditable(
