@@ -9,6 +9,10 @@
 <script type="text/javascript" src="resources/js/topjava.common.js" defer></script>
 <script type="text/javascript" src="resources/js/topjava.users.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
+<input type="hidden" id="mesEnable" value="<spring:message code="user.enable"/>">
+<input type="hidden" id="mesDisable" value="<spring:message code="user.disable"/>">
+
+
 
 <div class="jumbotron pt-4">
     <div class="container">

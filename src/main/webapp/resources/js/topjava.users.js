@@ -13,7 +13,8 @@ function sendEnable(id, isEnable) {
         data: isEnable.toString(),
         url: "rest/" + userAjaxUrl + id
     }).done(function () {
-        let mes = isEnable === true ? "Enable" : "Disable"
+        // let mes = isEnable === true ? "Enable" : "Disable"
+        let mes = isEnable === true ? $("#mesEnable").attr("value") : $("#mesDisable").attr("value")
         successNoty(mes)
     })
 }
