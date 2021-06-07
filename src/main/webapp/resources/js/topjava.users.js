@@ -4,6 +4,12 @@ const userAjaxUrl = "admin/users/";
 const ctx = {
     ajaxUrl: userAjaxUrl
 };
+$(".checkbox").click(function () {
+    let box = $(this)
+    if (confirm('Are you sure?')) {
+        sendEnable(box.attr("id"), box.is(":checked"));
+    }
+});
 
 function sendEnable(id, isEnable) {
     $.ajax({
@@ -13,7 +19,9 @@ function sendEnable(id, isEnable) {
         data: isEnable.toString(),
         url: userAjaxUrl + id
     }).done(function () {
-        successNoty(isEnable === true ? $("#mesEnable").attr("value") : $("#mesDisable").attr("value"))
+        successNoty(isEnable === true ? $("#mesEnable").attr("value") : $("#mesDisable").attr("value"));
+        isEnable?document.getElementById(id).style.opacity=1:document.getElementById(id).style.opacity=0.3;
+
     })
 }
 
@@ -56,4 +64,5 @@ $(function () {
             ]
         })
     );
+
 });

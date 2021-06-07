@@ -8,11 +8,8 @@ function on_filter() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: mealAjaxUrl + "filter?"
-            + "startDate=" + document.getElementById("startDate").value
-            + "&startTime=" + document.getElementById("startTime").value
-            + "&endDate=" + document.getElementById("endDate").value
-            + "&endTime=" + document.getElementById("endTime").value
+        url: mealAjaxUrl + "filter",
+        data: $("#filter").serialize()
     }).done(function (data) {
         isFiltered = true;
         ctx.datatableApi.clear().rows.add(data).draw();

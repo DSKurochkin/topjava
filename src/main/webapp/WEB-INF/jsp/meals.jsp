@@ -16,7 +16,7 @@
         <h3 class="text-center"><spring:message code="meal.title"/></h3>
         <br>
         <div class="container">
-            <form name="filter">
+            <form name="filter" id="filter">
                 <div class="form-row">
                     <div class="col">
                         <dl>
