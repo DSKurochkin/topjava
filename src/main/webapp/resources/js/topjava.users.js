@@ -11,11 +11,9 @@ function sendEnable(id, isEnable) {
         dataType: "json",
         contentType: "application/json",
         data: isEnable.toString(),
-        url: "rest/" + userAjaxUrl + id
+        url: userAjaxUrl + id
     }).done(function () {
-        // let mes = isEnable === true ? "Enable" : "Disable"
-        let mes = isEnable === true ? $("#mesEnable").attr("value") : $("#mesDisable").attr("value")
-        successNoty(mes)
+        successNoty(isEnable === true ? $("#mesEnable").attr("value") : $("#mesDisable").attr("value"))
     })
 }
 

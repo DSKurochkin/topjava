@@ -7,11 +7,7 @@ function makeEditable(datatableApi) {
     $(".checkbox").click(function () {
         let box = $(this)
         if (confirm('Are you sure?')) {
-            if (box.is(":checked")) {
-                sendEnable(box.attr("id"), true);
-            } else {
-                sendEnable(box.attr("id"), false);
-            }
+                sendEnable(box.attr("id"), box.is(":checked"));
         }
     });
 

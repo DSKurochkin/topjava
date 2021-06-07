@@ -22,9 +22,5 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.id=?1")
     User getWithMeals(int id);
 
-    @Transactional
-    @Modifying
-    @Query("update User u set u.enabled = ?2 where u.id = ?1")
-    void setEnable(int id, boolean isEnable);
 
 }
