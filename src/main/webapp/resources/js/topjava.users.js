@@ -2,14 +2,11 @@ const userAjaxUrl = "admin/users/";
 
 // https://stackoverflow.com/a/5064235/548473
 const ctx = {
-    ajaxUrl: userAjaxUrl
-};
-$(".checkbox").click(function () {
-    let box = $(this)
-    if (confirm('Are you sure?')) {
-        sendEnable(box.attr("id"), box.is(":checked"));
+    ajaxUrl: userAjaxUrl,
+    updateTable: function () {
+        updateTableCommon();
     }
-});
+};
 
 function sendEnable(id, isEnable) {
     $.ajax({
@@ -20,7 +17,7 @@ function sendEnable(id, isEnable) {
         url: userAjaxUrl + id
     }).done(function () {
         successNoty(isEnable === true ? $("#mesEnable").attr("value") : $("#mesDisable").attr("value"));
-        isEnable?document.getElementById(id).style.opacity=1:document.getElementById(id).style.opacity=0.3;
+        isEnable ? document.getElementById(id).style.opacity = 1 : document.getElementById(id).style.opacity = 0.3;
 
     })
 }
@@ -64,5 +61,11 @@ $(function () {
             ]
         })
     );
+    $(".checkbox").click(function () {
+        let box = $(this)
+        if (confirm('Are you sure?')) {
+            sendEnable(box.attr("id"), box.is(":checked"));
+        }
+    });
 
 });

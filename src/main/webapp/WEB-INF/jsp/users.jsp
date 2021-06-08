@@ -12,8 +12,6 @@
 <input type="hidden" id="mesEnable" value="<spring:message code="user.enable"/>">
 <input type="hidden" id="mesDisable" value="<spring:message code="user.disable"/>">
 
-
-
 <div class="jumbotron pt-4">
     <div class="container">
         <h3 class="text-center"><spring:message code="user.title"/></h3>

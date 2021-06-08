@@ -1,7 +1,14 @@
 const mealAjaxUrl = "ui/meals/";
 let isFiltered;
 const ctx = {
-    ajaxUrl: mealAjaxUrl
+    ajaxUrl: mealAjaxUrl,
+    updateTable: function () {
+        if (isFiltered) {
+            on_filter();
+        } else {
+            updateTableCommon();
+        }
+    }
 };
 
 function on_filter() {

@@ -26,9 +26,6 @@ tr[data-mealExcess="true"] {
 tr[data-userDisable="false"] {
     opacity: 0.3;
 }
-tr[data-userEnable="false"] {
-    opacity: 1;
-}
 
 .fa {
     cursor: pointer;

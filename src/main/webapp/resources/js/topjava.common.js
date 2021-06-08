@@ -34,14 +34,10 @@ function deleteRow(id) {
     });
 }
 
-function updateTable() {
-    if (isFiltered === true) {
-        on_filter();
-    } else {
-        $.get(ctx.ajaxUrl, function (data) {
-            ctx.datatableApi.clear().rows.add(data).draw();
-        });
-    }
+function updateTableCommon() {
+    $.get(ctx.ajaxUrl, function (data) {
+        ctx.datatableApi.clear().rows.add(data).draw();
+    });
 }
 
 function save() {
@@ -52,7 +48,7 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable();
+        ctx.updateTable();
         successNoty("Saved");
     });
 }

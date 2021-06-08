@@ -60,11 +60,6 @@ public abstract class AbstractUserController {
         return service.getWithMeals(id);
     }
 
-//    public void enable(int id, boolean isEnable) {
-//        log.info("enable {}", id, isEnable);
-//        service.enable(id, isEnable);
-//    }
-
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void enable(@PathVariable int id, @RequestBody boolean isEnable) {

@@ -39,7 +39,7 @@ public class DateTimeFormatters {
         }
     }
 
-    public static class LocalDateTimeFormatter implements Formatter <LocalDateTime> {
+    public static class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
 
         @Override
         public LocalDateTime parse(String text, Locale locale) {
