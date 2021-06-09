@@ -98,7 +98,6 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void enable() throws Exception {
-        assumeDataJpa();
         perform(MockMvcRequestBuilders.patch(REST_URL + ADMIN_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(false)))

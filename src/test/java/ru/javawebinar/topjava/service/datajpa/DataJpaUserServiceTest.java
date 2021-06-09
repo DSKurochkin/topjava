@@ -27,11 +27,4 @@ class DataJpaUserServiceTest extends AbstractUserServiceTest {
                 () -> service.getWithMeals(1));
     }
 
-    @Test
-    void enable() throws Exception {
-        service.enable(ADMIN_ID, false);
-        assertFalse(service.get(ADMIN_ID).isEnabled());
-        service.enable(ADMIN_ID, true);
-        assert(service.get(ADMIN_ID).isEnabled());
-    }
 }

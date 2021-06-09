@@ -39,8 +39,4 @@ public class ProfileRestController extends AbstractUserController {
         return super.getWithMeals(authUserId());
     }
 
-    @Override
-    public void enable(int id, boolean isEnable) {
-        throw new UnsupportedOperationException();
-    }
 }
