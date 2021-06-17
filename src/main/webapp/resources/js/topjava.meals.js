@@ -17,6 +17,31 @@ function clearFilter() {
     $.get("profile/meals/", updateTableByData);
 }
 
+$("#startDate").datetimepicker({
+    timepicker: false,
+    format: 'Y-m-d'
+})
+
+$("#endDate").datetimepicker({
+    timepicker: false,
+    format: 'Y-m-d'
+})
+
+$("#startTime").datetimepicker({
+    datepicker: false,
+    format: 'H:i'
+})
+
+$("#endTime").datetimepicker({
+    datepicker: false,
+    format: 'H:i'
+})
+
+$("#dateTime").datetimepicker({
+    format: 'Y-m-d H:i'
+})
+
+
 $(function () {
     makeEditable(
         $("#datatable").DataTable({
@@ -30,27 +55,18 @@ $(function () {
                 {
                     "data": "dateTime",
                     "render": function (date, type, row) {
-                        if (type === "display") {
-                            return date.substring(0, 10);
-                        }
-                        return date;
+                        return date.substring(0, 16).replace('T', ' ');
                     }
                 },
                 {
                     "data": "description",
                     "render": function (data, type, row) {
-                        if (type === "display") {
-                            return data;
-                        }
                         return data;
                     }
                 },
                 {
                     "data": "calories",
                     "render": function (data, type, row) {
-                        if (type === "display") {
-                            return data;
-                        }
                         return data;
                     }
                 },
