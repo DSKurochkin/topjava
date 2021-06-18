@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
-<link rel="stylesheet" href="webjars/datetimepicker/2.5.20-1/jquery.datetimepicker.css" >
+<link rel="stylesheet" href="webjars/datetimepicker/2.5.20-1/jquery.datetimepicker.css">
 <script type="text/javascript" src="webjars/datetimepicker/2.5.20-1/build/jquery.datetimepicker.full.min.js"></script>
 <body>
 <script type="text/javascript" src="resources/js/topjava.common.js" defer></script>
@@ -114,7 +114,7 @@
 </body>
 
 <script type="text/javascript">
-    let i18n=[];
+    let i18n = [];
     i18n["addTitle"] = '<spring:message code="meal.add"/>';
     i18n["editTitle"] = '<spring:message code="meal.edit"/>';
 

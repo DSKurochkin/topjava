@@ -40,7 +40,19 @@ $("#endTime").datetimepicker({
 $("#dateTime").datetimepicker({
     format: 'Y-m-d H:i'
 })
-
+$.ajaxSetup({
+    converters: {
+        "text json": function( text ) {
+            let json=JSON.parse(text);
+                json.forEach((element) => {
+                    if (element.hasOwnProperty("dateTime")) {
+                        element.dateTime = element.dateTime.substring(0, 16).replace("T", " ");
+                    }
+                })
+            return json;
+        }
+    }
+});
 
 $(function () {
     makeEditable(
@@ -55,7 +67,8 @@ $(function () {
                 {
                     "data": "dateTime",
                     "render": function (date, type, row) {
-                        return date.substring(0, 16).replace('T', ' ');
+                        // return date.substring(0, 16).replace('T', ' ');
+                        return date;
                     }
                 },
                 {
