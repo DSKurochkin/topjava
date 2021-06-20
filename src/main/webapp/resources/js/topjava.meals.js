@@ -42,13 +42,13 @@ $("#dateTime").datetimepicker({
 })
 $.ajaxSetup({
     converters: {
-        "text json": function( text ) {
-            let json=JSON.parse(text);
-                json.forEach((element) => {
-                    if (element.hasOwnProperty("dateTime")) {
-                        element.dateTime = element.dateTime.substring(0, 16).replace("T", " ");
-                    }
-                })
+        "text json": function (text) {
+            let json = JSON.parse(text);
+            $(json).each(function () {
+                if (this.hasOwnProperty("dateTime")) {
+                    this.dateTime = this.dateTime.substr(0, 16).replace("T", " ");
+                }
+            });
             return json;
         }
     }
@@ -67,7 +67,6 @@ $(function () {
                 {
                     "data": "dateTime",
                     "render": function (date, type, row) {
-                        // return date.substring(0, 16).replace('T', ' ');
                         return date;
                     }
                 },

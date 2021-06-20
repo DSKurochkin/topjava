@@ -35,11 +35,11 @@ public class Meal extends AbstractBaseEntity implements Serializable {
     public static final String GET_BETWEEN = "Meal.getBetween";
 
     @Column(name = "date_time", nullable = false)
-    @NotNull
+    @NotNull(message = "value must not be empty")
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
-    @NotBlank
+    @NotBlank()
     @Size(min = 2, max = 120)
     private String description;
 

@@ -5,6 +5,7 @@ import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import ru.javawebinar.topjava.HasId;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -78,12 +79,23 @@ public class ValidationUtil {
 
     public static ResponseEntity<String> hasErrorsInUI(BindingResult result) {
         if (result.hasErrors()) {
-            String errorFieldsMsg = result.getFieldErrors().stream()
-                    .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
-                    .collect(Collectors.joining("<br>"));
+            String errorFieldsMsg = "";
+            if (result.hasFieldErrors("calories")) {
+                for (FieldError fieldError : result.getFieldErrors("calories")) {
+                    if (fieldError.toString().contains("typeMismatch")) {
+                        errorFieldsMsg = "[calories] value must not be empty";
+                        break;
+                    }
+                }
+            } else {
+                errorFieldsMsg = result.getFieldErrors().stream()
+                        .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
+                        .collect(Collectors.joining("   "));
+            }
             return ResponseEntity.unprocessableEntity().body(errorFieldsMsg);
         } else {
             return null;
         }
     }
+
 }
