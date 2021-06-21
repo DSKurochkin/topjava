@@ -66,21 +66,12 @@ $(function () {
             "columns": [
                 {
                     "data": "dateTime",
-                    "render": function (date, type, row) {
-                        return date;
-                    }
                 },
                 {
                     "data": "description",
-                    "render": function (data, type, row) {
-                        return data;
-                    }
                 },
                 {
                     "data": "calories",
-                    "render": function (data, type, row) {
-                        return data;
-                    }
                 },
                 {
                     "orderable": false,
