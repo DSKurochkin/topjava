@@ -2,7 +2,10 @@ package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.exception.ErrorInfo;
+import ru.javawebinar.topjava.util.exception.ErrorType;
 
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -37,4 +40,21 @@ public class MealTestData {
     public static Meal getUpdated() {
         return new Meal(MEAL1_ID, meal1.getDateTime().plus(2, ChronoUnit.MINUTES), "Обновленный завтрак", 200);
     }
+
+    public static Meal getInvalidDescription() {
+        return new Meal(null, LocalDateTime.now(), "", 404);
+    }
+
+    public static ErrorInfo getErrorInfoWithDescription() {
+        return new ErrorInfo("http://localhost/rest/profile/meals/"
+                , ErrorType.VALIDATION_ERROR
+                , "[description] must not be blank<br>[description] size must be between 2 and 120");
+    }
+
+    public static ErrorInfo getErrorInfoWithCalories() {
+        return new ErrorInfo("http://localhost/rest/profile/meals/" + meal1.id()
+                , ErrorType.VALIDATION_ERROR
+                , "[calories] must be between 10 and 5000");
+    }
+
 }

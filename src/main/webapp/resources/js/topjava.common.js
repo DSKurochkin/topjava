@@ -96,9 +96,19 @@ function successNoty(key) {
 function failNoty(jqXHR) {
     closeNoty();
     var errorInfo = jqXHR.responseJSON;
+    let failMessage="<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;";
+
+    if (errorInfo.type === 'VALIDATION_ERROR') {
+        failMessage += i18n["common.validationError"]
+            + "<br>" + errorInfo.detail;
+    } else {
+        failMessage += i18n["common.errorStatus"]
+            + ": " + jqXHR.status +"<br>"
+            + errorInfo.type + "<br>"
+            + errorInfo.detail;
+    }
     failedNote = new Noty({
-        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status +
-            "<br>" + errorInfo.type + "<br>" + errorInfo.detail,
+        text: failMessage,
         type: "error",
         layout: "bottomRight"
     });

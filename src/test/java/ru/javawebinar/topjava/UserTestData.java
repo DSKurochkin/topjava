@@ -2,6 +2,8 @@ package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.util.exception.ErrorInfo;
+import ru.javawebinar.topjava.util.exception.ErrorType;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
 import java.util.Collections;
@@ -52,5 +54,17 @@ public class UserTestData {
 
     public static String jsonWithPassword(User user, String passw) {
         return JsonUtil.writeAdditionProps(user, "password", passw);
+    }
+
+    public static ErrorInfo getCreateErrorInfo() {
+        return new ErrorInfo("http://localhost/rest/admin/users/"
+                , ErrorType.VALIDATION_ERROR
+                , "[name] must not be blank<br>[name] size must be between 2 and 100<br>[password] size must be between 5 and 100");
+    }
+
+    public static ErrorInfo getUpdErrorInfo() {
+        return new ErrorInfo("http://localhost/rest/admin/users/" + ADMIN_ID
+                , ErrorType.VALIDATION_ERROR
+                , "[name] size must be between 2 and 100<br>[password] must not be blank");
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -144,5 +145,29 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         assertFalse(userService.get(USER_ID).isEnabled());
+    }
+
+
+    @Test
+    void createWithInvalid() throws Exception {
+        User badUser = getNew();
+        badUser.setName("");
+        perform(MockMvcRequestBuilders.post(REST_URL).contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(jsonWithPassword(badUser, "xyz")))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().json(JsonUtil.writeValue(UserTestData.getCreateErrorInfo())));
+
+    }
+
+    @Test
+    void updateWithInvalid() throws Exception {
+        User badUser = getUpdated();
+        badUser.setName("U");
+        perform(MockMvcRequestBuilders.put(REST_URL + ADMIN_ID).contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(JsonUtil.writeValue(badUser)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().json(JsonUtil.writeValue(UserTestData.getUpdErrorInfo())));
     }
 }

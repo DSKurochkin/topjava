@@ -7,6 +7,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +39,10 @@ public class ExceptionInfoHandler {
     @ResponseStatus(HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
+        String mes = ValidationUtil.getRootCause(e).getMessage().toLowerCase();
+        if (mes.contains("users_unique_email_idx")) {
+            return bindErrorInfo(req, "User with this email already exists");
+        }
         return logAndGetErrorInfo(req, e, true, DATA_ERROR);
     }
 
@@ -45,6 +51,13 @@ public class ExceptionInfoHandler {
     public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
     }
+
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)  // 422
+    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+    public ErrorInfo handleBindException(HttpServletRequest req, BindException e) {
+        return bindErrorInfo(req, e);
+    }
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
@@ -61,5 +74,18 @@ public class ExceptionInfoHandler {
             log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
         }
         return new ErrorInfo(req.getRequestURL(), errorType, rootCause.toString());
+    }
+
+
+    private static ErrorInfo bindErrorInfo(HttpServletRequest req, BindException e) {
+        return new ErrorInfo(req.getRequestURL()
+                , VALIDATION_ERROR
+                , ValidationUtil.getMessageFromBindingResult(e.getBindingResult()));
+    }
+
+    private static ErrorInfo bindErrorInfo(HttpServletRequest req, String details) {
+        return new ErrorInfo(req.getRequestURL()
+                , VALIDATION_ERROR
+                , details);
     }
 }
