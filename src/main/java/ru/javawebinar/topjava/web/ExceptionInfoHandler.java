@@ -42,6 +42,8 @@ public class ExceptionInfoHandler {
         String mes = ValidationUtil.getRootCause(e).getMessage().toLowerCase();
         if (mes.contains("users_unique_email_idx")) {
             return bindErrorInfo(req, "User with this email already exists");
+        } else if (mes.contains("meals_unique_user_datetime_idx")) {
+            return bindErrorInfo(req, "You already have meal with this date/time");
         }
         return logAndGetErrorInfo(req, e, true, DATA_ERROR);
     }
@@ -76,16 +78,13 @@ public class ExceptionInfoHandler {
         return new ErrorInfo(req.getRequestURL(), errorType, rootCause.toString());
     }
 
-
-    private static ErrorInfo bindErrorInfo(HttpServletRequest req, BindException e) {
-        return new ErrorInfo(req.getRequestURL()
-                , VALIDATION_ERROR
-                , ValidationUtil.getMessageFromBindingResult(e.getBindingResult()));
-    }
-
     private static ErrorInfo bindErrorInfo(HttpServletRequest req, String details) {
         return new ErrorInfo(req.getRequestURL()
                 , VALIDATION_ERROR
                 , details);
+    }
+
+    private static ErrorInfo bindErrorInfo(HttpServletRequest req, BindException e) {
+        return bindErrorInfo(req, ValidationUtil.getMessageFromBindingResult(e.getBindingResult()));
     }
 }
